@@ -328,7 +328,7 @@ static std::string createFileLineMsg(StringRef path, unsigned line) {
 
 template <class ELFT>
 static std::string getSrcMsgAux(ObjFile<ELFT> &file, const Symbol &sym,
-                                InputSectionBase &sec, uint64_t offset) {
+                                const InputSectionBase &sec, uint64_t offset) {
   // In DWARF, functions and variables are stored to different places.
   // First, look up a function for a given offset.
   if (std::optional<DILineInfo> info = file.getDILineInfo(&sec, offset))
@@ -343,7 +343,7 @@ static std::string getSrcMsgAux(ObjFile<ELFT> &file, const Symbol &sym,
   return std::string(file.sourceFile);
 }
 
-std::string InputFile::getSrcMsg(const Symbol &sym, InputSectionBase &sec,
+std::string InputFile::getSrcMsg(const Symbol &sym, const InputSectionBase &sec,
                                  uint64_t offset) {
   if (kind() != ObjKind)
     return "";
@@ -454,7 +454,7 @@ ObjFile<ELFT>::getVariableLoc(StringRef name) {
 // Returns source line information for a given offset
 // using DWARF debug info.
 template <class ELFT>
-std::optional<DILineInfo> ObjFile<ELFT>::getDILineInfo(InputSectionBase *s,
+std::optional<DILineInfo> ObjFile<ELFT>::getDILineInfo(const InputSectionBase *s,
                                                        uint64_t offset) {
   // Detect SectionIndex for specified section.
   uint64_t sectionIndex = object::SectionedAddress::UndefSection;

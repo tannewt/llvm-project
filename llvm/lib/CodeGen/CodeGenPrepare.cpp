@@ -585,7 +585,7 @@ bool CodeGenPrepare::_run(Function &F) {
   } else if (ProfileGuidedSectionPrefix) {
     // The hot attribute overwrites profile count based hotness while profile
     // counts based hotness overwrite the cold attribute.
-    // This is a conservative behabvior.
+    // This is a conservative behavior.
     if (F.hasFnAttribute(Attribute::Hot) ||
         PSI->isFunctionHotInCallGraph(&F, *BFI))
       F.setSectionPrefix("hot");

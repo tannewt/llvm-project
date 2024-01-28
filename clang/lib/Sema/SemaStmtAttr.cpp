@@ -568,6 +568,7 @@ static Attr *handleOpenCLUnrollHint(Sema &S, Stmt *St, const ParsedAttr &A,
 
 static Attr *ProcessStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &A,
                                   SourceRange Range) {
+    llvm::outs() << "attribute" << A.getAttrName() << A.isRegularKeywordAttribute();
   if (A.isInvalid() || A.getKind() == ParsedAttr::IgnoredAttribute)
     return nullptr;
 
@@ -622,6 +623,7 @@ static Attr *ProcessStmtAttribute(Sema &S, Stmt *St, const ParsedAttr &A,
     // needed for attributes in Attr.td that do not list any subjects.
     S.Diag(A.getRange().getBegin(), diag::err_decl_attribute_invalid_on_stmt)
         << A << A.isRegularKeywordAttribute() << St->getBeginLoc();
+    llvm::outs() << "unhandled attribute" << A.getAttrName() << A.isRegularKeywordAttribute();
     return nullptr;
   }
 }

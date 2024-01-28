@@ -112,6 +112,9 @@ def InAlloca : TypeAttr<"inalloca", [ParamAttr]>;
 /// Source said inlining was desirable.
 def InlineHint : EnumAttr<"inlinehint", [FnAttr]>;
 
+/// Source said function and descendents should be placed outside of XIP memory.
+def NoXIP : EnumAttr<"noxip", [FnAttr]>;
+
 /// Force argument to be passed in register.
 def InReg : EnumAttr<"inreg", [ParamAttr, RetAttr]>;
 

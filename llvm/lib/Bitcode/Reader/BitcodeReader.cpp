@@ -2103,6 +2103,8 @@ static Attribute::AttrKind getAttrFromCode(uint64_t Code) {
     return Attribute::CoroDestroyOnlyWhenComplete;
   case bitc::ATTR_KIND_DEAD_ON_UNWIND:
     return Attribute::DeadOnUnwind;
+  case bitc::ATTR_KIND_NO_XIP:
+    return Attribute::NoXIP;
   }
 }
 

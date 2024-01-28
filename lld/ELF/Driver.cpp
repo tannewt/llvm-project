@@ -129,6 +129,8 @@ bool link(ArrayRef<const char *> args, llvm::raw_ostream &stdoutOS,
   // This driver-specific context will be freed later by unsafeLldMain().
   auto *ctx = new CommonLinkerContext;
 
+  llvm::outs() << "hello world\n";
+
   ctx->e.initialize(stdoutOS, stderrOS, exitEarly, disableOutput);
   ctx->e.cleanupCallback = []() {
     elf::ctx.reset();
@@ -1563,6 +1565,7 @@ static void readConfigs(opt::InputArgList &args) {
 
   config->ltoKind = LtoKind::Default;
   if (auto *arg = args.getLastArg(OPT_lto)) {
+    llvm::outs() << "lto kind\n";
     StringRef s = arg->getValue();
     if (s == "thin")
       config->ltoKind = LtoKind::UnifiedThin;
@@ -2374,6 +2377,7 @@ static void markBuffersAsDontNeed(bool skipLinkedOutput) {
 // the compiler at once, it can do a whole-program optimization.
 template <class ELFT>
 void LinkerDriver::compileBitcodeFiles(bool skipLinkedOutput) {
+  llvm::outs() << "lto compile bitcode files\n";
   llvm::TimeTraceScope timeScope("LTO");
   // Compile bitcode files and replace bitcode symbols.
   lto.reset(new BitcodeCompiler);
@@ -2982,6 +2986,7 @@ void LinkerDriver::link(opt::InputArgList &args) {
   invokeELFT(splitSections,);
 
   // Garbage collection and removal of shared symbols from unused shared objects.
+  llvm::outs() << "garbage collect\n";
   invokeELFT(markLive,);
 
   // Make copies of any input sections that need to be copied into each
@@ -3012,6 +3017,7 @@ void LinkerDriver::link(opt::InputArgList &args) {
 
     // Create output sections described by SECTIONS commands.
     script->processSectionCommands();
+    llvm::outs() << "creating output sections\n";
 
     // Linker scripts control how input sections are assigned to output
     // sections. Input sections that were not handled by scripts are called
@@ -3041,6 +3047,7 @@ void LinkerDriver::link(opt::InputArgList &args) {
 
   // Read the callgraph now that we know what was gced or icfed
   if (config->callGraphProfileSort != CGProfileSortKind::None) {
+    llvm::outs() << "call graph ordering site\n";
     if (auto *arg = args.getLastArg(OPT_call_graph_ordering_file))
       if (std::optional<MemoryBufferRef> buffer = readFile(arg->getValue()))
         readCallGraph(*buffer);

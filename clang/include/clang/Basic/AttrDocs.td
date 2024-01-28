@@ -642,6 +642,18 @@ all targets, not just one.
   }];
 }
 
+def NoXIPDocs : Documentation {
+  let Category = DocCatFunction;
+  let Content = [{
+This function attribute designates a function that must execute when execute-in-place
+(XIP) memory is not available. If inlined, the attribute will be copied to the outer
+function.
+
+The linker will then place this function and anything it uses, in memory outside of XIP.
+
+  }];
+}
+
 def AssertCapabilityDocs : Documentation {
   let Category = DocCatFunction;
   let Heading = "assert_capability, assert_shared_capability";

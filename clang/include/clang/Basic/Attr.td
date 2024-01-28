@@ -1951,6 +1951,13 @@ def NoInline : DeclOrStmtAttr {
   let SimpleHandler = 1;
 }
 
+def NoXIP : InheritableAttr {
+  let Spellings = [GCC<"noxip">];
+  let Documentation = [NoXIPDocs];
+  let Subjects = SubjectList<[Function]>;
+  let SimpleHandler = 1;
+}
+
 def NoMips16 : InheritableAttr, TargetSpecificAttr<TargetMips32> {
   let Spellings = [GCC<"nomips16">];
   let Subjects = SubjectList<[Function], ErrorDiag>;

@@ -1926,7 +1926,7 @@ bool AttrBuilder::operator==(const AttrBuilder &B) const {
 }
 
 //===----------------------------------------------------------------------===//
-// AttributeFuncs Function Defintions
+// AttributeFuncs Function Definitions
 //===----------------------------------------------------------------------===//
 
 /// Returns true if this is a type legal for the 'nofpclass' attribute. This

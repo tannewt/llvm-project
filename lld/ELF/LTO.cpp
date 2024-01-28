@@ -405,6 +405,7 @@ std::vector<InputFile *> BitcodeCompiler::compile() {
                         outputFileBaseName + ".lto." + baseName + ext);
       sys::path::remove_dots(path, true);
       ltoObjName = saver().save(path.str());
+      llvm::outs() << ltoObjName;
     }
     if (savePrelink || config->ltoEmitAsm)
       saveBuffer(buf[i].second, ltoObjName);

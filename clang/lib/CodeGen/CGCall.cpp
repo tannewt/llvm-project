@@ -2326,6 +2326,8 @@ void CodeGenModule::ConstructAttributeList(StringRef Name,
   llvm::AttrBuilder FuncAttrs(getLLVMContext());
   llvm::AttrBuilder RetAttrs(getLLVMContext());
 
+  llvm::outs() << "construct attribute list: " << Name << "\n";
+
   // Collect function IR attributes from the CC lowering.
   // We'll collect the paramete and result attributes later.
   CallingConv = FI.getEffectiveCallingConvention();
@@ -2431,6 +2433,8 @@ void CodeGenModule::ConstructAttributeList(StringRef Name,
       FuncAttrs.addAttribute(llvm::Attribute::NoCfCheck);
     if (TargetDecl->hasAttr<LeafAttr>())
       FuncAttrs.addAttribute(llvm::Attribute::NoCallback);
+    if (TargetDecl->hasAttr<NoXIPAttr>())
+      FuncAttrs.addAttribute(llvm::Attribute::NoXIP);
 
     HasOptnone = TargetDecl->hasAttr<OptimizeNoneAttr>();
     if (auto *AllocSize = TargetDecl->getAttr<AllocSizeAttr>()) {

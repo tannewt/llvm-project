@@ -1375,6 +1375,7 @@ static AttrBuilder IdentifyValidPoisonGeneratingAttributes(CallBase &CB) {
 }
 
 static void AddReturnAttributes(CallBase &CB, ValueToValueMapTy &VMap) {
+  llvm::outs() << "inliner determining new attributes\n";
   AttrBuilder ValidUB = IdentifyValidUBGeneratingAttributes(CB);
   AttrBuilder ValidPG = IdentifyValidPoisonGeneratingAttributes(CB);
   if (!ValidUB.hasAttributes() && !ValidPG.hasAttributes())

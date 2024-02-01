@@ -63,7 +63,7 @@ InputSectionBase::InputSectionBase(InputFile *file, uint64_t flags,
   if (sectionKind == SectionBase::Merge && content().size() > UINT32_MAX)
     error(toString(this) + ": section too large");
 
-  llvm::outs() << "section: " << name << "\n";
+  llvm::outs() << "new input section: " << name << "\n";
 
   // The ELF spec states that a value of 0 means the section has
   // no alignment constraints.

@@ -75,7 +75,9 @@ void OutputSection::writeHeaderTo(typename ELFT::Shdr *shdr) {
 
 OutputSection::OutputSection(StringRef name, uint32_t type, uint64_t flags)
     : SectionBase(Output, name, flags, /*Entsize*/ 0, /*Alignment*/ 1, type,
-                  /*Info*/ 0, /*Link*/ 0) {}
+                  /*Info*/ 0, /*Link*/ 0) {
+  llvm::outs() << "new output section: " << name << "\n";
+}
 
 // We allow sections of types listed below to merged into a
 // single progbits section. This is typically done by linker

@@ -183,6 +183,7 @@ class InlineResult {
 public:
   static InlineResult success() { return {}; }
   static InlineResult failure(const char *Reason) {
+    llvm::outs() << "inline failure: " << Reason << "\n";
     return InlineResult(Reason);
   }
   bool isSuccess() const { return Message == nullptr; }

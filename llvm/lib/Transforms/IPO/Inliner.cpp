@@ -204,6 +204,8 @@ PreservedAnalyses InlinerPass::run(LazyCallGraph::SCC &InitialC,
       AM.getResult<ModuleAnalysisManagerCGSCCProxy>(InitialC, CG);
   bool Changed = false;
 
+  llvm::outs() << "inliner pass\n";
+
   assert(InitialC.size() > 0 && "Cannot handle an empty SCC!");
   Module &M = *InitialC.begin()->getFunction().getParent();
   ProfileSummaryInfo *PSI = MAMProxy.getCachedResult<ProfileSummaryAnalysis>(M);
@@ -308,9 +310,9 @@ PreservedAnalyses InlinerPass::run(LazyCallGraph::SCC &InitialC,
     if (CG.lookupSCC(N) != C)
       continue;
 
-    LLVM_DEBUG(dbgs() << "Inlining calls in: " << F.getName() << "\n"
+    llvm::outs() << "Inlining calls in: " << F.getName() << "\n"
                       << "    Function size: " << F.getInstructionCount()
-                      << "\n");
+                      << "\n";
 
     auto GetAssumptionCache = [&](Function &F) -> AssumptionCache & {
       return FAM.getResult<AssumptionAnalysis>(F);

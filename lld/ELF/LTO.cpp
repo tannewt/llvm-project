@@ -324,6 +324,7 @@ std::vector<InputFile *> BitcodeCompiler::compile() {
   if (!ctx.bitcodeFiles.empty())
     checkError(ltoObj->run(
         [&](size_t task, const Twine &moduleName) {
+          llvm::outs() << "lto: " << moduleName.str() << "\n";
           buf[task].first = moduleName.str();
           return std::make_unique<CachedFileStream>(
               std::make_unique<raw_svector_ostream>(buf[task].second));
@@ -407,8 +408,10 @@ std::vector<InputFile *> BitcodeCompiler::compile() {
       ltoObjName = saver().save(path.str());
       llvm::outs() << ltoObjName;
     }
-    if (savePrelink || config->ltoEmitAsm)
+    if (savePrelink || config->ltoEmitAsm) {
+      llvm::outs() << "saving prelink:" << ltoObjName << "\n";
       saveBuffer(buf[i].second, ltoObjName);
+    }
     if (!config->ltoEmitAsm)
       ret.push_back(createObjFile(MemoryBufferRef(objBuf, ltoObjName)));
   }

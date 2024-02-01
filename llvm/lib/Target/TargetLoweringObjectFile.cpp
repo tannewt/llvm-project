@@ -320,6 +320,7 @@ SectionKind TargetLoweringObjectFile::getKindForGlobal(const GlobalObject *GO,
 /// available externally) globals.
 MCSection *TargetLoweringObjectFile::SectionForGlobal(
     const GlobalObject *GO, SectionKind Kind, const TargetMachine &TM) const {
+  llvm::outs() << "section for global 1:" << GO->getName() << "\n";
   // Select section name.
   if (GO->hasSection())
     return getExplicitSectionGlobal(GO, Kind, TM);
@@ -339,6 +340,9 @@ MCSection *TargetLoweringObjectFile::SectionForGlobal(
       return getExplicitSectionGlobal(GO, Kind, TM);
   }
 
+
+  llvm::outs() << "default section:" << GO->getName() << "\n";
+
   // Use default section depending on the 'type' of global
   return SelectSectionForGlobal(GO, Kind, TM);
 }
@@ -354,6 +358,7 @@ TargetLoweringObjectFile::SectionForGlobal(const GlobalObject *GO,
 
 MCSection *TargetLoweringObjectFile::getSectionForJumpTable(
     const Function &F, const TargetMachine &TM) const {
+  llvm::outs() << "section for jump table:" << F << "\n";
   Align Alignment(1);
   return getSectionForConstant(F.getParent()->getDataLayout(),
                                SectionKind::getReadOnly(), /*C=*/nullptr,
@@ -380,6 +385,7 @@ bool TargetLoweringObjectFile::shouldPutJumpTableInFunctionSection(
 MCSection *TargetLoweringObjectFile::getSectionForConstant(
     const DataLayout &DL, SectionKind Kind, const Constant *C,
     Align &Alignment) const {
+  llvm::outs() << "section for constant:" << C << "\n";
   if (Kind.isReadOnly() && ReadOnlySection != nullptr)
     return ReadOnlySection;
 

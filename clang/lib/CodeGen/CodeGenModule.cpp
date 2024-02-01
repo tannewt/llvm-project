@@ -2558,13 +2558,21 @@ void CodeGenModule::SetCommonAttributes(GlobalDecl GD, llvm::GlobalValue *GV) {
     addUsedOrCompilerUsedGlobal(GV);
 
   if (const auto *VD = dyn_cast_if_present<VarDecl>(D);
-      VD &&
-      ((CodeGenOpts.KeepPersistentStorageVariables &&
+      VD) {
+  llvm::outs() << "set common attributes: " << VD->getName() << "\n";
+  if (VD->hasAttr<NoXIPAttr>()) {
+    GV->addAttribute(llvm::Attribute::NoXIP);
+    llvm::outs() << "noxip\n";
+  }
+
+
+      if ((CodeGenOpts.KeepPersistentStorageVariables &&
         (VD->getStorageDuration() == SD_Static ||
          VD->getStorageDuration() == SD_Thread)) ||
        (CodeGenOpts.KeepStaticConsts && VD->getStorageDuration() == SD_Static &&
-        VD->getType().isConstQualified())))
+        VD->getType().isConstQualified()))
     addUsedOrCompilerUsedGlobal(GV);
+  }
 }
 
 bool CodeGenModule::GetCPUAndFeaturesAttributes(GlobalDecl GD,

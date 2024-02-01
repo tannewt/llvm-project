@@ -873,6 +873,7 @@ static MCSectionELF *selectELFSectionForGlobal(
   SmallString<128> Name = getELFSectionNameForGlobal(
       GO, Kind, Mang, TM, EntrySize, UniqueSectionName);
 
+  llvm::outs() << "section name: " << Name << "\n";
   // Use 0 as the unique ID for execute-only text.
   if (Kind.isExecuteOnly())
     UniqueID = 0;

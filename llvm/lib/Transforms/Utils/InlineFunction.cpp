@@ -2216,6 +2216,8 @@ llvm::InlineResult llvm::InlineFunction(CallBase &CB, InlineFunctionInfo &IFI,
     // Keep a list of pair (dst, src) to emit byval initializations.
     SmallVector<ByValInit, 4> ByValInits;
 
+    llvm::outs() << "inlining started\n";
+
     // When inlining a function that contains noalias scope metadata,
     // this metadata needs to be cloned so that the inlined blocks
     // have different "unique scopes" at every call site.

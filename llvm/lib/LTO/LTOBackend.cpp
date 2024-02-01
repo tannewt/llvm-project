@@ -504,13 +504,14 @@ Error lto::finalizeOptimizationRemarks(
 Error lto::backend(const Config &C, AddStreamFn AddStream,
                    unsigned ParallelCodeGenParallelismLevel, Module &Mod,
                    ModuleSummaryIndex &CombinedIndex) {
+  llvm::outs() << "Trying to run regular LTO\n";
   Expected<const Target *> TOrErr = initAndLookupTarget(C, Mod);
   if (!TOrErr)
     return TOrErr.takeError();
 
   std::unique_ptr<TargetMachine> TM = createTargetMachine(C, *TOrErr, Mod);
 
-  LLVM_DEBUG(dbgs() << "Running regular LTO\n");
+  llvm::outs() << "Running regular LTO\n";
   if (!C.CodeGenOnly) {
     if (!opt(C, TM.get(), 0, Mod, /*IsThinLTO=*/false,
              /*ExportSummary=*/&CombinedIndex, /*ImportSummary=*/nullptr,
@@ -533,6 +534,7 @@ static void dropDeadSymbols(Module &Mod, const GVSummaryMapTy &DefinedGlobals,
   for (auto &GV : Mod.global_values())
     if (GlobalValueSummary *GVS = DefinedGlobals.lookup(GV.getGUID()))
       if (!Index.isGlobalValueLive(GVS)) {
+        llvm::outs() << "dropping symbol\n" << GV;
         DeadGVs.push_back(&GV);
         convertToDeclaration(GV);
       }

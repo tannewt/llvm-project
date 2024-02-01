@@ -1951,10 +1951,10 @@ def NoInline : DeclOrStmtAttr {
   let SimpleHandler = 1;
 }
 
-def NoXIP : InheritableAttr {
+def NoXIP : DeclOrStmtAttr {
   let Spellings = [GCC<"noxip">];
   let Documentation = [NoXIPDocs];
-  let Subjects = SubjectList<[Function]>;
+  let Subjects = SubjectList<[NonLocalVar, Function]>;
   let SimpleHandler = 1;
 }
 

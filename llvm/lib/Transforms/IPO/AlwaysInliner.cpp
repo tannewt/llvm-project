@@ -38,6 +38,7 @@ bool AlwaysInlineImpl(
   SmallSetVector<CallBase *, 16> Calls;
   bool Changed = false;
   SmallVector<Function *, 16> InlinedFunctions;
+  llvm::outs() << "always inliner\n";
   for (Function &F : M) {
     // When callee coroutine function is inlined into caller coroutine function
     // before coro-split pass,

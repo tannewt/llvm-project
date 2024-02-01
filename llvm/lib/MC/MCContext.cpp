@@ -601,6 +601,7 @@ MCSectionELF *MCContext::getELFSection(const Twine &Section, unsigned Type,
   recordELFMergeableSectionInfo(Result->getName(), Result->getFlags(),
                                 Result->getUniqueID(), Result->getEntrySize());
 
+  llvm::outs() << "result: " << Result->getName() << "\n";
   return Result;
 }
 

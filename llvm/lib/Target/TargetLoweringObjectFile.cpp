@@ -341,7 +341,7 @@ MCSection *TargetLoweringObjectFile::SectionForGlobal(
   }
 
 
-  llvm::outs() << "default section:" << GO->getName() << "\n";
+  llvm::outs() << "default section: " << GO->getName() << "\n";
 
   // Use default section depending on the 'type' of global
   return SelectSectionForGlobal(GO, Kind, TM);

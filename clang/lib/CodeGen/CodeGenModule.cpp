@@ -2559,11 +2559,14 @@ void CodeGenModule::SetCommonAttributes(GlobalDecl GD, llvm::GlobalValue *GV) {
 
   if (const auto *VD = dyn_cast_if_present<VarDecl>(D);
       VD) {
-  llvm::outs() << "set common attributes: " << VD->getName() << "\n";
-  if (VD->hasAttr<NoXIPAttr>()) {
-    GV->addAttribute(llvm::Attribute::NoXIP);
-    llvm::outs() << "noxip\n";
-  }
+
+    if (auto *GVar = dyn_cast<llvm::GlobalVariable>(GV)) {
+      llvm::outs() << "set common attributes: " << VD->getName() << "\n";
+      if (VD->hasAttr<NoXIPAttr>()) {
+        GVar->addAttribute(llvm::Attribute::NoXIP);
+        llvm::outs() << "noxip\n";
+      }
+    }
 
 
       if ((CodeGenOpts.KeepPersistentStorageVariables &&

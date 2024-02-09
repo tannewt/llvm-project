@@ -649,7 +649,20 @@ getELFSectionNameForGlobal(const GlobalObject *GO, SectionKind Kind,
     Name = ".rodata.cst";
     Name += utostr(EntrySize);
   } else {
-    Name = getSectionPrefixForGlobal(Kind, TM.isLargeGlobalValue(GO));
+    llvm::outs() << "getELFSectionNameForGlobal\n";
+    std::string noxip;
+    if (const auto *F = dyn_cast<Function>(GO)) {
+      llvm::outs() << "Function\n";
+      if (F->hasFnAttribute(llvm::Attribute::NoXIP)) {
+        Name += ".noxip";
+      }
+    } else if (const auto *GV = dyn_cast<GlobalVariable>(GO)) {
+      llvm::outs() << "GlobalVariable\n";
+      if (GV->hasAttribute(llvm::Attribute::NoXIP)) {
+        Name += ".noxip";
+      }
+    }
+    Name += getSectionPrefixForGlobal(Kind, TM.isLargeGlobalValue(GO));
   }
 
   bool HasPrefix = false;
